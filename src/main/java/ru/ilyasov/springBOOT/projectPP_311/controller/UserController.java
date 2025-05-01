@@ -1,8 +1,10 @@
 package ru.ilyasov.springBOOT.projectPP_311.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.ilyasov.springBOOT.projectPP_311.models.User;
 import ru.ilyasov.springBOOT.projectPP_311.service.UserService;
@@ -26,31 +28,39 @@ public class UserController {
     }
 
     @GetMapping("/add")
-    public String addUserF(@ModelAttribute("user") User user) {
+    public String showAddUserForm(Model model) {
+        model.addAttribute("user", new User());
         return "add";
     }
 
     @PostMapping("/add")
-    public String addUser(@ModelAttribute("user") User user) {
+    public String addUser(@Valid @ModelAttribute("user") User user, BindingResult result) {
+        if (result.hasErrors()) {
+            return "add";
+        }
         userService.saveUser(user);
         return "redirect:/users";
     }
 
-    @GetMapping("/edit")
-    public String editUserF(@RequestParam(name = "id") Long id, Model model) {
+    @GetMapping("/edit/{id}")
+    public String showEditUserForm(@PathVariable Long id, Model model) {
         model.addAttribute("user", userService.getUserById(id));
         return "edit";
     }
 
     @PostMapping("/edit")
-    public String editUser(@ModelAttribute("user") User user) {
+    public String editUser(@Valid @ModelAttribute("user") User user, BindingResult result) {
+        if (result.hasErrors()) {
+            return "edit";
+        }
         userService.saveUser(user);
         return "redirect:/users";
     }
 
-    @GetMapping("/delete")
-    public String deleteUser(@RequestParam(name = "id") Long id) {
+    @GetMapping("/delete/{id}")
+    public String deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return "redirect:/users";
     }
 }
+

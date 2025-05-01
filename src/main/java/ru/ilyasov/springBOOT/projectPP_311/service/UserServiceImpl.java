@@ -2,7 +2,6 @@ package ru.ilyasov.springBOOT.projectPP_311.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.ilyasov.springBOOT.projectPP_311.models.User;
 import ru.ilyasov.springBOOT.projectPP_311.repository.UserRepository;
 
@@ -11,7 +10,7 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    public final UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
@@ -19,24 +18,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public void saveUser(User user) {
-        userRepository.saveUser(user);
+        userRepository.save(user);
     }
 
     @Override
     public List<User> getAllUsers() {
-        return userRepository.getAllUsers();
+        return userRepository.findAll();
     }
 
     @Override
     public User getUserById(Long id) {
-        return userRepository.getUserById(id);
+        return userRepository.findById(id).orElse(null);
     }
 
     @Override
-    @Transactional
     public void deleteUser(Long id) {
-        userRepository.deleteUser(id);
+        userRepository.deleteById(id);
     }
 }

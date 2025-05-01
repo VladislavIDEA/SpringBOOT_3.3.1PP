@@ -1,16 +1,7 @@
 package ru.ilyasov.springBOOT.projectPP_311.repository;
 
-
+import org.springframework.data.jpa.repository.JpaRepository;
 import ru.ilyasov.springBOOT.projectPP_311.models.User;
 
-import java.util.List;
-
-public interface UserRepository {
-    void saveUser(User user);
-
-    List<User> getAllUsers();
-
-    User getUserById(Long id);
-
-    void deleteUser(Long id);
+public interface UserRepository extends JpaRepository<User, Long> {
 }
