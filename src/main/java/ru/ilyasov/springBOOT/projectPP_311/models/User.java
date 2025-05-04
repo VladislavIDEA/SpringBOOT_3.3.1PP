@@ -14,7 +14,7 @@ public class User {
     private Long id;
 
     @NotBlank(message = "Имя не может быть путсым")
-    @Column(name = "name")
+    @Column(name = "username")
     private String name;
 
     @NotBlank(message = "Email не может быть пустым")
